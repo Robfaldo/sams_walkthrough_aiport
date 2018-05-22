@@ -2,6 +2,7 @@ describe 'User Stories' do
 
   let(:airport) { Airport.new(20) }
   let(:plane) {Plane.new}
+  let(:weather_reporter) {WeatherReporter.new}
 
   context 'when not stormy' do 
     before do 
@@ -33,6 +34,14 @@ describe 'User Stories' do
         expect { airport.land(plane) }.to raise_error "Can't land plane, airport is full"
       end
     end
+
+    # As an air traffic controller 
+    # So that I can ensure safe take off procedures 
+    # I want planes only to take off from the airport they are at 
+    # it 'planes only take off from the airport they are at' do
+    #   # expect { plane.take_off(airport) }.not_to raise_error
+    #   expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
+    # end
   end
 
   context 'when stormy' do 

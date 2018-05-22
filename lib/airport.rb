@@ -13,6 +13,7 @@ class Airport
 
   def take_off(plane)
     raise "Can't take off plane in stormy weather" if stormy?
+
   end
 
   private
@@ -22,9 +23,10 @@ class Airport
   end
 
   def stormy?
-    rand(10) < 9
+    WeatherReporter.new.stormy?
   end
 
 end
 
-# When the method call 'take_off(plane)' is called on an instance of the Airport class, I want it to fail if it is stormy
+# I want to call a message on an instance of the WeatherReporter class, 
+# which will return true or false 
