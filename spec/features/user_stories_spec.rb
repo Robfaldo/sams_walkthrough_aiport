@@ -1,8 +1,9 @@
 describe 'User Stories' do
 
+  let(:airport) { Airport.new(20) }
+  let(:plane) {Plane.new}
+
   context 'when not stormy' do 
-    let(:airport) { Airport.new(20) }
-    let(:plane) {Plane.new}
     before do 
       allow(airport).to receive(:stormy?).and_return(false)
     end
@@ -42,8 +43,6 @@ describe 'User Stories' do
     # So that i can avoid accident 
     # I want to prevent planes from landing or taking off when the weather is stormy 
       it 'does not allow planes to land' do
-      airport = Airport.new(20) 
-      plane = Plane.new
       allow(airport).to receive(:stormy?).and_return(false)
       airport.land(plane)
       allow(airport).to receive(:stormy?).and_return(true)
