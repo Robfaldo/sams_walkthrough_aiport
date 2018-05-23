@@ -26,7 +26,6 @@ describe Airport do
       end
 
       it 'is expected to respond to land with 1 argument' do
-        allow(weather_reporter).to receive(:stormy?).and_return(false)
         expect(airport).to respond_to(:land).with(1).argument
       end 
     end

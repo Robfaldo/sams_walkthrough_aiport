@@ -58,13 +58,7 @@ describe 'User Stories' do
         airport.land(plane)
         flying_plane = airport.take_off(plane)
         expect { flying_plane.airport }.to raise_error "Plane cannot be at an airport: plane is already flying"
-        # we could ask the flying plane if it is in airport?
-        # we could assume that if the flying plane is flying, it's not in an AP
-        # we could ask the flying playing if it's flying? 
-
       end
-
-
     end
 
     # As a system designer 
@@ -74,6 +68,18 @@ describe 'User Stories' do
       default_airport = Airport.new(weather_reporter)
       Airport::DEFAULT_CAPACITY.times { default_airport.land(plane) }
       expect {default_airport.land(plane) }.to raise_error "Can't land plane, airport is full"
+    end
+
+
+    # As an air traffic controller 
+    # So the system is consistent and correctly reports plane status and location
+    # I want to ensure a plane that is not flying cannot land and must be in an airport
+    it 'non-flying planes cannot land' do
+      airport.land(plane)
+      expect { plane.land }.to raise_error "Plane cannot land, plane already landed"
+    end
+
+    xit 'non-flying planes must be in an airport' do
     end
   end
 

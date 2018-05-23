@@ -22,6 +22,15 @@ describe Plane do
     end
   end
 
+  describe '#land' do
+    it { is_expected.to respond_to :land }
+
+    it 'raises an error if already landed' do
+      subject.land
+      expect { subject.land }.to raise_error "Plane cannot land, plane already landed"
+    end
+  end
+
 end
 
 # I'm expecting the error 'plane cannot take off, not in the aiport' but I'm 
