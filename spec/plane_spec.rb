@@ -11,6 +11,17 @@ describe Plane do
     end
   end
 
+  describe '#airport' do
+    let(:airport) { double :airport}
+    it { is_expected.to respond_to :airport } 
+
+    it 'raises an error if already flying' do
+      allow(airport).to receive(:take_off).and_return [Plane.new]
+      flying_plane = airport.take_off(subject)
+      expect { subject.airport }.to raise_error "Plane cannot be at an airport: plane is already flying"
+    end
+  end
+
 end
 
 # I'm expecting the error 'plane cannot take off, not in the aiport' but I'm 

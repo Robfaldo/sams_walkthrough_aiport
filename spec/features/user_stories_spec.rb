@@ -54,6 +54,16 @@ describe 'User Stories' do
         expect { flying_plane.take_off }.to raise_error "Plane cannot take off: not in airport"
       end
 
+      it 'flying planes cannot be in an airport' do
+        airport.land(plane)
+        flying_plane = airport.take_off(plane)
+        expect { flying_plane.airport }.to raise_error "Plane cannot be at an airport: plane is already flying"
+        # we could ask the flying plane if it is in airport?
+        # we could assume that if the flying plane is flying, it's not in an AP
+        # we could ask the flying playing if it's flying? 
+
+      end
+
 
     end
 
