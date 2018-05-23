@@ -28,7 +28,7 @@ describe 'User Stories' do
       # So that I can avoid colissions 
       # I want to prevent airplanes landing when my airport is full 
       it 'does not allow planes to land' do
-        20.times { airport.land(plane) }
+        20.times { airport.land(Plane.new) }
         expect { airport.land(plane) }.to raise_error "Can't land plane, airport is full"
       end
     end
@@ -66,7 +66,7 @@ describe 'User Stories' do
     # I would like a default capcity that can be overridden as appropriate
     it 'has a default capacity is none is specified' do 
       default_airport = Airport.new(weather_reporter)
-      Airport::DEFAULT_CAPACITY.times { default_airport.land(plane) }
+      Airport::DEFAULT_CAPACITY.times { default_airport.land(Plane.new) }
       expect {default_airport.land(plane) }.to raise_error "Can't land plane, airport is full"
     end
 
@@ -76,10 +76,12 @@ describe 'User Stories' do
     # I want to ensure a plane that is not flying cannot land and must be in an airport
     it 'non-flying planes cannot land' do
       airport.land(plane)
-      expect { plane.land }.to raise_error "Plane cannot land, plane already landed"
+      expect { plane.land(airport) }.to raise_error "Plane cannot land, plane already landed"
     end
 
-    xit 'non-flying planes must be in an airport' do
+    it 'non-flying planes must be in an airport' do
+      airport.land(plane)
+      expect(plane.airport).to eq airport
     end
   end
 

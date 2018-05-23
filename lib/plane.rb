@@ -12,7 +12,7 @@ class Plane
     raise "Plane cannot be at an airport: plane is already flying"
   end
 
-  def land
+  def land(airport)
     raise "Plane cannot land, plane already landed" unless @flying
     @flying = false
   end
