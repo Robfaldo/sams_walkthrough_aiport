@@ -12,7 +12,7 @@ describe 'User Stories' do
     # So planes can land safely at my airport 
     # I would like to instruct a plane to land 
     it 'planes land at airports, instruct a plane to land' do
-      expect { airport.land(plane) }.not_to raise_error
+      expect(airport).to respond_to :take_off
     end
 
     # As an air traffic controller
@@ -33,14 +33,28 @@ describe 'User Stories' do
       end
     end
 
-    # As an air traffic controller 
-    # So that I can ensure safe take off procedures 
-    # I want planes only to take off from the airport they are at 
-    it 'planes only take off from the airport they are at' do
-      airport_2 = Airport.new(weather_reporter, 20)
-      allow(airport_2).to receive(:stormy?).and_return(false)
-      airport_2.land(plane)
-      expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
+    context 'take off' do
+      # As an air traffic controller 
+      # So that I can ensure safe take off procedures 
+      # I want planes only to take off from the airport they are at 
+      it 'planes only take off from the airport they are at' do
+        airport_2 = Airport.new(weather_reporter, 20)
+        allow(airport_2).to receive(:stormy?).and_return(false)
+        airport_2.land(plane)
+        expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
+      end
+
+      # As an air traffic controller 
+      # So the system is consistent and correctly reports plane status and location 
+      # I want to ensure a flying plane cannot take off and cannot be in an airport 
+      it 'flying planes cannot take off' do
+        new_airport = Airport.new(weather_reporter)
+        new_airport.land(plane)
+        flying_plane = new_airport.take_off(plane)      
+        expect { flying_plane.take_off }.to raise_error "Plane cannot take off: not in airport"
+      end
+
+
     end
 
     # As a system designer 
