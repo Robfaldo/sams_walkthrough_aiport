@@ -40,7 +40,7 @@ describe Airport do
   end
 
   describe "#take_off" do
-    describe 'when stormy' do
+    context 'when stormy' do
       before do 
         allow(airport).to receive(:stormy?).and_return(true)
       end
@@ -50,8 +50,20 @@ describe Airport do
       end
     end
 
-    it 'so that planes can take off, it responds to take off with the plane to take off' do
-      expect(airport).to respond_to(:take_off).with(1).argument
+    context 'when not stormy' do
+      before do
+        allow(weather_reporter).to receive(:stormy?).and_return(false)
+      end
+
+      it 'so that planes can take off, it responds to take off with the plane to take off' do
+        expect(airport).to respond_to(:take_off).with(1).argument
+      end
+
+      it 'raises an error if plane is not at this airport' do
+        other_airport = Airport.new(20, weather_reporter)
+        other_airport.land(plane)
+        expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
+      end
     end
   end
 

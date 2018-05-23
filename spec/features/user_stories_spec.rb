@@ -19,6 +19,7 @@ describe 'User Stories' do
     # So planes can take off safely from an airport
     # I would like to instruct a plane to take off 
     it 'planes can take off from an airport' do
+      airport.land(plane)
       expect { airport.take_off(plane) }.not_to raise_error
     end
 
@@ -35,10 +36,12 @@ describe 'User Stories' do
     # As an air traffic controller 
     # So that I can ensure safe take off procedures 
     # I want planes only to take off from the airport they are at 
-    # it 'planes only take off from the airport they are at' do
-    #   # expect { plane.take_off(airport) }.not_to raise_error
-    #   expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
-    # end
+    it 'planes only take off from the airport they are at' do
+      airport_2 = Airport.new(20, WeatherReporter.new)
+      allow(airport_2).to receive(:stormy?).and_return(false)
+      airport_2.land(plane)
+      expect { airport.take_off(plane) }.to raise_error "This plane is not as this location"
+    end
   end
 
   context 'when stormy' do 
@@ -53,8 +56,8 @@ describe 'User Stories' do
       allow(weather_reporter).to receive(:stormy?).and_return(true)
       expect { airport.land(plane) }.to raise_error "Can't land plane in stormy weather"
     end
-
     it 'does not allow planes to take off' do
+      airport.land(plane)
       airport.take_off(plane)
       allow(weather_reporter).to receive(:stormy?).and_return(true)
       expect { airport.take_off(plane) }.to raise_error "Can't take off plane in stormy weather"
